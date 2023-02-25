@@ -1,0 +1,49 @@
+camel:
+  component:
+    servlet:
+      mapping:
+        contextPath=/*
+
+server:
+  port: 8080
+
+route:
+  findOrderById: direct:findOrderById
+  findAllOrders: direct:findAllOrders
+  saveOrder: direct:saveOrder
+  removeOrder: direct:removeOrder
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:schedulingDb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  spring:
+    rabbitmq:
+      host: localhost
+      port: 5672
+      user: guest
+      password: guest
+      listener:
+        simple:
+          default-requeue-rejected: false
+
+jpa:
+  database-platform: org.hibernate.dialect.H2Dialect
+
+h2:
+  console:
+    enabled: true
+    path: /h2-console
+
+
+rabbit:
+  order:
+    exchange: order
+    state:
+      pending:
+        queue: q-order.state.pending
+      processed:
+        queue: q-order.state.processed
+        routing-key: order.state.processed.routing.key

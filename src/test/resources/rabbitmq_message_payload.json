@@ -1,0 +1,79 @@
+{
+  "status": "PENDING",
+  "completedAt": null,
+  "users": [
+    {
+      "type": "OWNER"
+    },
+    {
+      "type": "AGENT"
+    }
+  ],
+  "payment": {
+    "type": "CARD",
+    "amount": 123.45,
+    "currency": "EUR"
+  },
+  "items": [
+    {
+      "action": "ADD",
+      "type": "COFFEE",
+      "characteristics": [
+        {
+          "name": "itemId",
+          "value": "500123"
+        },
+        {
+          "name": "roast",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "action": "DELETE",
+      "type": "COFFEE",
+      "characteristics": [
+        {
+          "name": "itemId",
+          "value": "500333"
+        },
+        {
+          "name": "roast",
+          "value": "light"
+        }
+      ]
+    },
+    {
+      "action": "ADD",
+      "type": "GRINDER",
+      "characteristics": [
+        {
+          "name": "itemId",
+          "value": "300675"
+        },
+        {
+          "name": "color",
+          "value": "black"
+        },
+        {
+          "name": "finish",
+          "value": "steel"
+        }
+      ]
+    },
+    {
+      "action": "NONE",
+      "type": "SUBSCRIPTION",
+      "characteristics": [
+        {
+          "name": "frequency",
+          "value": "2"
+        },
+        {
+          "name": "UoM",
+          "value": "week"
+        }
+      ]
+    }
+  ]
+}
