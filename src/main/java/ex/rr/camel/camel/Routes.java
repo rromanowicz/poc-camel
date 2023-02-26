@@ -1,5 +1,6 @@
 package ex.rr.camel.camel;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import ex.rr.camel.database.Order;
 import ex.rr.camel.database.ProcessingConfirmation;
 import ex.rr.camel.service.OrderService;
@@ -25,6 +26,18 @@ public class Routes extends RouteBuilder {
 
     @Override
     public void configure() {
+
+        onException(NoSuchElementException.class)
+                .handled(true)
+                .setBody(simple("${exchangeProperty[CamelExceptionCaught]}"))
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("404"));
+
+        onException(JsonParseException.class)
+                .handled(true)
+                .setBody(simple("${exchangeProperty[CamelExceptionCaught]}"))
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("400"))
+                .stop();
+
 
         JacksonDataFormat orderJsonFormat = new JacksonDataFormat(Order.class);
         JacksonDataFormat processingConfirmationJsonFormat = new JacksonDataFormat(ProcessingConfirmation.class);
@@ -69,7 +82,7 @@ public class Routes extends RouteBuilder {
                 .choice()
                     .when(method(Validator.class, "isCoffee(${body.items[0].type})"))
                         .log("OrderID: [${body.id}], ItemID: [${body.items[0].id}] Coffee")
-                .to("direct:addCoffeee")
+                        .to("direct:addCoffeee")
 //                        .transform().method(OrderService.class, "test(${body})")
 //                        .log("${body}")
                     .when(method(Validator.class, "isSubscription(${body.items[0].type})"))
@@ -136,10 +149,7 @@ public class Routes extends RouteBuilder {
         from("{{route.findOrderById}}")
                 .routeId("findOrderById")
                 .log("Received header : ${header.id}")
-                .doTry()
-                .bean(OrderService.class, "findOrderById(${header.id})")
-                .doCatch(NoSuchElementException.class)
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("404"));
+                .bean(OrderService.class, "findOrderById(${header.id})");
 
         from("{{route.findAllOrders}}")
                 .routeId("findAllOrders")

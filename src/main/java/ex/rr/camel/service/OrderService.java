@@ -42,10 +42,6 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    String test(Order order) {
-        return String.format("{id:%s, items:[{id:%s}]", order.getId(), order.getItems().get(0).getId());
-    }
-
     ProcessingConfirmation processOrder(Order order) {
         ProcessingConfirmation confirmation = null;
         Item item = order.getItems().get(0);

@@ -19,15 +19,14 @@ spring:
     username: sa
     password: password
     driverClassName: org.h2.Driver
-  spring:
-    rabbitmq:
-      host: localhost
-      port: 5672
-      user: guest
-      password: guest
-      listener:
-        simple:
-          default-requeue-rejected: false
+  rabbitmq:
+    host: localhost
+    port: 5672
+    user: guest
+    password: guest
+    listener:
+      simple:
+        default-requeue-rejected: false
 
 jpa:
   database-platform: org.hibernate.dialect.H2Dialect
